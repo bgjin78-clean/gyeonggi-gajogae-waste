@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gyeonggi-gajogae-waste.vercel.app/sitemap.xml
+Sitemap: https://www.gyeonggi.gajogae-waste.com/sitemap.xml
