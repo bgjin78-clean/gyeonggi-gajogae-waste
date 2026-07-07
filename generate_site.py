@@ -47,6 +47,7 @@ def layout(title, description, body, canonical):
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/images/main/favicon.png">
 
 <meta property="og:title" content="{title}">
