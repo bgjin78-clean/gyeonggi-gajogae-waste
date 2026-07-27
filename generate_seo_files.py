@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 
-BASE_URL = "https://gyeonggi-gajogae-waste.vercel.app"
+BASE_URL = "https://www.gyeonggi.gajogae-waste.com"
 SITE_NAME = "경기 가족애 폐기물처리"
 
 today = datetime.now().strftime("%Y-%m-%d")
@@ -45,7 +45,7 @@ rss = f"""<?xml version="1.0" encoding="UTF-8"?>
 <language>ko</language>
 """
 
-for p in sorted(Path("reviews").glob("*-review-01.html"))[:30]:
+for p in sorted(Path("reviews").glob("*-review-*.html")):
     title = p.stem.replace("-", " ")
     rss += f"""
 <item>

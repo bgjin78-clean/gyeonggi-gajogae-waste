@@ -2,11 +2,11 @@ from pathlib import Path
 from datetime import datetime
 
 PHONE = "010-4720-3895"
-BASE_URL = "https://gyeonggi-gajogae-waste.vercel.app"
+BASE_URL = "https://www.gyeonggi.gajogae-waste.com"
 
-SEOUL_WASTE_URL = "#"
-GYEONGGI_YUPUM_URL = "#"
-SEOUL_YUPUM_URL = "#"
+SEOUL_WASTE_URL = "https://www.seoul.gajogae-waste.com/"
+GYEONGGI_YUPUM_URL = "https://www.gyeonggi.gajogae-yupum.com/"
+SEOUL_YUPUM_URL = "https://www.seoul.gajogae-yupum.com/"
 
 REVIEWS = [
     ("suwon-review-01", "수원시", "원룸 이사폐기물 처리", "이사폐기물처리", "이사 후 남은 가구와 생활폐기물을 정리한 현장"),
@@ -40,6 +40,12 @@ REVIEWS = [
     ("gapyeong-review-01", "가평군", "주택 빈집정리", "빈집정리", "주택 내 오래된 물품과 생활폐기물을 정리한 현장"),
     ("yangpyeong-review-01", "양평군", "단독주택 폐기물처리", "가정폐기물처리", "단독주택 내 생활폐기물과 가구를 정리한 현장"),
     ("yeoncheon-review-01", "연천군", "창고 및 주택 폐기물처리", "빈집정리", "창고와 주택에 남은 물품을 정리한 현장"),
+    ("suwon-review-02", "수원시", "아파트 가정폐기물 처리", "가정폐기물처리", "아파트에 쌓여 있던 생활가구와 잔짐을 정리한 현장"),
+    ("seongnam-review-02", "성남시", "원룸 이사폐기물 처리", "이사폐기물처리", "이사 후 남은 가구와 박스류를 정리한 현장"),
+    ("goyang-review-02", "고양시", "단독주택 가정폐기물 처리", "가정폐기물처리", "단독주택 내부 생활폐기물과 대형가구를 정리한 현장"),
+    ("yongin-review-02", "용인시", "원룸 쓰레기집청소", "쓰레기집청소", "생활폐기물이 쌓인 원룸을 단계적으로 정리한 현장"),
+    ("hwaseong-review-02", "화성시", "아파트 이사폐기물 처리", "이사폐기물처리", "이사 전후 남은 가구와 생활폐기물을 정리한 현장"),
+    ("bucheon-review-02", "부천시", "사무실 폐업폐기물 처리", "폐업폐기물처리", "사무실 정리 후 남은 집기와 폐기물을 처리한 현장"),
 ]
 
 REGION_SLUG = {
