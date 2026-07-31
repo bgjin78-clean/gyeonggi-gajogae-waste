@@ -763,9 +763,51 @@ img{
     color:#5f4630;
 }
 
+.before-after-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+    margin-top:28px;
+}
+
+.before-after-grid figure{
+    background:#fff;
+    border:1px solid #ead8c4;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+    margin:0;
+}
+
+.before-after-grid img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    display:block;
+    border-radius:0;
+    box-shadow:none;
+}
+
+.before-after-grid figcaption{
+    padding:14px 16px;
+    text-align:center;
+    font-weight:700;
+    font-size:15px;
+    color:#5c3c20;
+    background:#fbf7f1;
+}
+
 @media(max-width:768px){
     .review-photo-grid.two{
         grid-template-columns:1fr;
+    }
+
+    .before-after-grid{
+        grid-template-columns:1fr;
+    }
+
+    .before-after-grid img{
+        height:240px;
     }
 }
 /* 작업후기 상세페이지 최종 정리 */

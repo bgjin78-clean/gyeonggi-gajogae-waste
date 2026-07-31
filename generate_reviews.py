@@ -59,8 +59,32 @@ REGION_SLUG = {
     "가평군": "gapyeong", "양평군": "yangpyeong", "연천군": "yeoncheon"
 }
 
-def safe_num(n):
-    return ((n - 1) % 100) + 1
+def safe_num(n, total=100):
+    return ((n - 1) % total) + 1
+
+PROCESS_EXT = {1: ".jpeg"}  # process-01 only
+
+def process_path(n):
+    n = safe_num(n, 25)
+    ext = PROCESS_EXT.get(n, ".jpg")
+    return f"/images/main/process-{n:02d}{ext}"
+
+def image_set(idx):
+    """전·후는 같은 번호끼리 짝, 중은 process 이미지."""
+    p1 = safe_num((idx - 1) * 2 + 1)
+    p2 = safe_num((idx - 1) * 2 + 2)
+    mid1 = process_path((idx - 1) % 25 + 1)
+    mid2 = process_path(idx % 25 + 1)
+    return {
+        "p1": p1,
+        "p2": p2,
+        "before1": f"/images/cases/waste-before-{p1:03d}.jpg",
+        "after1": f"/images/cases/waste-after-{p1:03d}.jpg",
+        "before2": f"/images/cases/waste-before-{p2:03d}.jpg",
+        "after2": f"/images/cases/waste-after-{p2:03d}.jpg",
+        "mid1": mid1,
+        "mid2": mid2,
+    }
 
 def layout(title, desc, body, canonical):
     return f"""<!DOCTYPE html>
@@ -134,23 +158,18 @@ cards = []
 
 for idx, (slug, region, case_title, service, summary) in enumerate(REVIEWS, start=1):
     region_slug = REGION_SLUG[region]
-
-    b1 = safe_num((idx - 1) * 3 + 1)
-    b2 = safe_num((idx - 1) * 3 + 2)
-    mid = safe_num((idx - 1) * 3 + 3)
-    a1 = safe_num((idx - 1) * 3 + 1)
-    a2 = safe_num((idx - 1) * 3 + 2)
+    imgs = image_set(idx)
 
     title = f"{region} {case_title} 작업후기 | 경기 가족애폐기물처리"
     desc = f"{region} {case_title} 작업후기. {summary}. 경기 폐기물처리 상담 {PHONE}"
 
     body = f"""
 <main>
-<section class="sub-hero">
+<section class="sub-hero review-detail-hero">
   <div class="sub-hero-inner">
     <p class="hero-badge">{region} 작업후기</p>
     <h1>{region} {case_title} 작업후기</h1>
-    <p>{summary}입니다. 작업 전 상태부터 정리 과정, 반출 후 마무리 상태까지 확인할 수 있습니다.</p>
+    <p>{summary}입니다. 작업 전·후 비교와 분류·반출 과정까지 확인할 수 있습니다.</p>
     <div class="hero-actions">
       <a href="tel:{PHONE}">전화 상담하기</a>
       <a href="/#contact">상담 접수하기</a>
@@ -187,24 +206,34 @@ for idx, (slug, region, case_title, service, summary) in enumerate(REVIEWS, star
 
 <section class="section review-photo-section">
   <p class="section-label">작업사진</p>
-  <h2>{region} 폐기물처리 전·중·후 사진</h2>
-  <p class="section-desc">작업후기는 전 2장, 중간 흐름 1장, 후 2장 구성으로 정리했습니다.</p>
+  <h2>{region} 폐기물처리 작업 전·중·후 사진</h2>
+  <p class="section-desc">같은 현장의 작업 전·후를 짝으로 비교하고, 분류·반출 과정도 함께 확인할 수 있도록 구성했습니다.</p>
 
-  <h3>작업 전</h3>
-  <div class="review-photo-grid two">
-    <img src="/images/cases/waste-before-{b1:03d}.jpg" alt="{region} 폐기물처리 작업 전 1" />
-    <img src="/images/cases/waste-before-{b2:03d}.jpg" alt="{region} 폐기물처리 작업 전 2" />
-  </div>
-
-  <h3>작업 중</h3>
-  <div class="review-photo-grid one">
-    <img src="/images/cases/waste-before-{mid:03d}.jpg" alt="{region} 폐기물처리 작업 중" />
-  </div>
-
-  <h3>작업 후</h3>
-  <div class="review-photo-grid two">
-    <img src="/images/cases/waste-after-{a1:03d}.jpg" alt="{region} 폐기물처리 작업 후 1" />
-    <img src="/images/cases/waste-after-{a2:03d}.jpg" alt="{region} 폐기물처리 작업 후 2" />
+  <div class="before-after-grid">
+    <figure>
+      <img src="{imgs['before1']}" alt="{region} 폐기물처리 작업 전 1" loading="lazy" />
+      <figcaption>작업 전 현장 상태</figcaption>
+    </figure>
+    <figure>
+      <img src="{imgs['after1']}" alt="{region} 폐기물처리 작업 후 1" loading="lazy" />
+      <figcaption>작업 후 정리 완료</figcaption>
+    </figure>
+    <figure>
+      <img src="{imgs['before2']}" alt="{region} 폐기물처리 작업 전 2" loading="lazy" />
+      <figcaption>다른 각도 작업 전</figcaption>
+    </figure>
+    <figure>
+      <img src="{imgs['after2']}" alt="{region} 폐기물처리 작업 후 2" loading="lazy" />
+      <figcaption>다른 각도 작업 후</figcaption>
+    </figure>
+    <figure>
+      <img src="{imgs['mid1']}" alt="{region} 폐기물 분류 과정" loading="lazy" />
+      <figcaption>폐기물 분류 과정</figcaption>
+    </figure>
+    <figure>
+      <img src="{imgs['mid2']}" alt="{region} 폐기물 반출 과정" loading="lazy" />
+      <figcaption>반출 및 정리 과정</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -234,32 +263,29 @@ for idx, (slug, region, case_title, service, summary) in enumerate(REVIEWS, star
   </div>
 </section>
 
-<section class="section contact-mini">
-  <h2>비슷한 현장 상담이 필요하신가요?</h2>
-  <p>사진과 주소를 남겨주시면 폐기물 양과 작업 조건을 확인한 뒤 연락드립니다.</p>
-  <div class="hero-actions mini-actions">
-    <a href="tel:{PHONE}">전화상담 {PHONE}</a>
-    <a href="/#contact">상담접수하기</a>
+<section class="review-contact-box">
+  <div class="contact-mini">
+    <h2>비슷한 현장 상담이 필요하신가요?</h2>
+    <p>사진과 주소를 남겨주시면 폐기물 양과 작업 조건을 확인한 뒤 연락드립니다.</p>
+    <div class="hero-actions mini-actions">
+      <a href="tel:{PHONE}">전화상담 {PHONE}</a>
+      <a href="/#contact">상담접수하기</a>
+    </div>
   </div>
 </section>
 </main>
 """
 
     file_path = Path("reviews") / f"{slug}.html"
-
-    # 기존 후기 페이지는 덮어쓰지 않음: 주기적 업데이트 보호
-    if not file_path.exists():
-        file_path.write_text(
-            layout(title, desc, body, f"{BASE_URL}/reviews/{slug}.html"),
-            encoding="utf-8"
-        )
-        print(f"생성: {file_path}")
-    else:
-        print(f"유지: {file_path}")
+    file_path.write_text(
+        layout(title, desc, body, f"{BASE_URL}/reviews/{slug}.html"),
+        encoding="utf-8"
+    )
+    print(f"생성: {file_path}")
 
     cards.append(f"""
     <article>
-      <img src="/images/cases/waste-after-{a1:03d}.jpg" alt="{region} {case_title} 작업후기" />
+      <img src="{imgs['after1']}" alt="{region} {case_title} 작업후기" />
       <span>{service}</span>
       <h3>{region} {case_title} 작업후기</h3>
       <p>{summary}입니다.</p>
@@ -281,8 +307,8 @@ index_body = f"""
   <p class="section-label">작업후기 모음</p>
   <h2>경기 폐기물처리 실제 작업후기</h2>
   <p class="section-desc">
-    작업후기는 단순 전·후 비교가 아니라 작업 전 상태, 정리 과정,
-    수거 후 마무리 상태가 자연스럽게 보이도록 구성했습니다.
+    작업후기는 같은 현장의 전·후 사진을 짝으로 비교하고,
+    분류·반출 과정까지 자연스럽게 보이도록 구성했습니다.
   </p>
 
   <div class="review-list-grid">
@@ -312,5 +338,4 @@ Path("reviews/index.html").write_text(
 )
 
 print("작업후기 생성 완료")
-print("기존 개별 후기 html은 덮어쓰지 않았습니다.")
-print("reviews/index.html은 최신 목록으로 갱신했습니다.")
+print("개별 후기 html과 reviews/index.html을 세트 이미지 기준으로 갱신했습니다.")
